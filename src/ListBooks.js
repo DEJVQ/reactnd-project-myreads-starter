@@ -15,10 +15,6 @@ class ListBooks extends Component {
         
         showingBooks = books;
         
-        console.log(showingBooks);
-        
-        
-        
         return (
             <div className="list-books">
                {/*{showingContacts.map((contact) => ())} */}

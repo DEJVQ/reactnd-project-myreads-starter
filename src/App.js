@@ -7,22 +7,30 @@ import './App.css'
 
 class BooksApp extends React.Component {
   state = {
-      books: []
+      books: [],
+      booksSearched: []
   }
   
   componentDidMount() {
+//      console.log(BooksAPI);
       BooksAPI.getAll().then((books) => {
           this.setState({ books });
       })
+      
+      console.log(this.state.query);
+      BooksAPI.search("art").then((booksSearched) => {
+          console.log(booksSearched);
+          this.setState({ booksSearched });
+      })
   }
 
-    addBook(book) {
-          BooksAPI.update(book).then(book => {
-              this.setState(state => ({
-                  books: state.books.concat([book])
-              }))
-          })
-      }
+//    addBook(book) {
+//          BooksAPI.update(book).then(book => {
+//              this.setState(state => ({
+//                  books: state.books.concat([book])
+//              }))
+//          })
+//      }
 
   render() {
     return (
@@ -32,7 +40,7 @@ class BooksApp extends React.Component {
         )} />
         
         <Route path="/search" render={() => (
-            <SearchBook />
+            <SearchBook booksSearched={ this.state.booksSearched } query={this.state.query}/>
         )} />
       </div>
     )
