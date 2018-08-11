@@ -1,36 +1,56 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
-//import serializeForm from "form-serialize"
 import escapeRegExp from "escape-string-regexp"
-import PropTypes from "prop-types"
+import * as BooksAPI from './BooksAPI'
+import ChangeShelf from "./ChangeShelf"
+
 
 class SearchBook extends Component {
-    static propTypes = {
-        booksSearched: PropTypes.array.isRequired
-    }
     
   state = {
-    query: ''
+    query: '',
+    booksSearched: [],
+    bookId: "",
+    shelfDestination: ""
   }
+  
 
   updateQuery = (query) => {
     this.setState({ query: query.trim() })
+    if(query !== "") {
+        BooksAPI.search(query).then((booksSearched) => {
+            if(booksSearched.length > 1) {
+                this.setState({ booksSearched });
+            }
+      })
+    }
   }
   
-  clearQuery = () => {
-      this.setState({ query: "" });
+  
+  setChangeValue = (event) => {
+      this.state.shelfDestination = event;
+      
+      BooksAPI.update(this.state.bookId, this.state.shelfDestination).then((books) => {
+          this.setState({books})
+          console.log({books});
+      })
+      
   }
+  
+  handleClick = (id) => {
+        this.state.bookId = id;
+  }
+  
     
     render() {
-        const { booksSearched } = this.props;
-        const { query } = this.state;
+        const { query, booksSearched } = this.state;
+        const { onUpdateStates } = this.props;
         
         let showingBooks;
         
         if (query) {
             const match = new RegExp(escapeRegExp(query), "i");
             showingBooks = booksSearched.filter((book) => match.test(book.title));
-            console.log("Test123");
         }
         else {
             showingBooks = [];
@@ -46,22 +66,15 @@ class SearchBook extends Component {
                     onChange={(event) => this.updateQuery(event.target.value)}/>
                   </div>
                 </div>
-                <div className="search-books-results">
-                  <ol className="books-grid">
-                     
+                <div className="search-books-results" onChange={() => onUpdateStates()}>
+                  <ol className="books-grid" >
                       {showingBooks.map((book) => (
                           <li key={book.id}>
                             <div className="book">
                               <div className="book-top">
                                 <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:  `url(${book.imageLinks.thumbnail})` }}></div>
-                                <div className="book-shelf-changer">
-                                  <select>
-                                    <option value="move" disabled>Move to...</option>
-                                    <option value="currentlyReading">Currently Reading</option>
-                                    <option value="wantToRead">Want to Read</option>
-                                    <option value="read">Read</option>
-                                    <option value="none">None</option>
-                                  </select>
+                                <div className="book-shelf-changer" id={`${book.id}`} onClick={() => this.handleClick(book.id)} >
+                                    <ChangeShelf onChangeValue={this.setChangeValue} />
                                 </div>
                               </div>
                               <div className="book-title">{book.title}</div>

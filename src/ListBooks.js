@@ -1,22 +1,50 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
+import ChangeShelf from "./ChangeShelf"
+import * as BooksAPI from './BooksAPI'
 
 class ListBooks extends Component {
     
     static propTypes = {
-        books: PropTypes.array.isRequired
+        booksCurrentlyReading: PropTypes.array.isRequired,
+        booksWantToRead: PropTypes.array.isRequired,
+        booksRead: PropTypes.array.isRequired
     }
     
+    state = {
+        bookId: "",
+        shelfDestination: "",
+        books: ""
+    }
+    
+      setChangeValue = (event) => {
+          this.state.shelfDestination = event;
+          
+          BooksAPI.update(this.state.bookId, this.state.shelfDestination).then((books) => {
+              this.setState({books})
+//              console.log(this.state.books);
+          })
+      }
+
+      handleClick = (id) => {
+            this.state.bookId = id;
+      }
+    
     render() {
-        const { books } = this.props;
+        const { booksCurrentlyReading, booksWantToRead, booksRead, onUpdateStates} = this.props;
+        const { books } = this.state;
         
-        let showingBooks;
+        let showingCurrentyReadingBooks, showingWantToReadBooks, showingReadBooks;
         
-        showingBooks = books;
+        showingCurrentyReadingBooks = booksCurrentlyReading;
+        showingWantToReadBooks = booksWantToRead;            
+        showingReadBooks = booksRead;
+        
+        
         
         return (
-            <div className="list-books">
+            <div className="list-books" onChange={() => onUpdateStates()}>
                {/*{showingContacts.map((contact) => ())} */}
                 <div className="list-books-title">
                   <h1>MyReads</h1>
@@ -27,19 +55,13 @@ class ListBooks extends Component {
                       <h2 className="bookshelf-title">Currently Reading</h2>
                       <div className="bookshelf-books">
                         <ol className="books-grid">
-                         {showingBooks.map((book) => (
+                         {showingCurrentyReadingBooks.map((book) => (
                           <li key={book.id}>
                             <div className="book">
                               <div className="book-top">
                                 <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:  `url(${book.imageLinks.thumbnail})` }}></div>
-                                <div className="book-shelf-changer">
-                                  <select>
-                                    <option value="move" disabled>Move to...</option>
-                                    <option value="currentlyReading">Currently Reading</option>
-                                    <option value="wantToRead">Want to Read</option>
-                                    <option value="read">Read</option>
-                                    <option value="none">None</option>
-                                  </select>
+                                <div className="book-shelf-changer" id={`${book.id}`} onClick={() => this.handleClick(book.id)}>
+                                  <ChangeShelf onChangeValue={this.setChangeValue} />
                                 </div>
                               </div>
                               <div className="book-title">{book.title}</div>
@@ -54,6 +76,20 @@ class ListBooks extends Component {
                       <h2 className="bookshelf-title">Want to Read</h2>
                       <div className="bookshelf-books">
                         <ol className="books-grid">
+                        {showingWantToReadBooks.map((book) => (
+                          <li key={book.id}>
+                            <div className="book">
+                              <div className="book-top">
+                                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:  `url(${book.imageLinks.thumbnail})` }}></div>
+                                <div className="book-shelf-changer" id={`${book.id}`} onClick={() => this.handleClick(book.id)}>
+                                  <ChangeShelf onChangeValue={this.setChangeValue} />
+                                </div>
+                              </div>
+                              <div className="book-title">{book.title}</div>
+                              <div className="book-authors">{book.authors}</div>
+                            </div>
+                          </li>
+                          ))}
                         </ol>
                       </div>
                     </div>
@@ -61,6 +97,20 @@ class ListBooks extends Component {
                       <h2 className="bookshelf-title">Read</h2>
                       <div className="bookshelf-books">
                         <ol className="books-grid">
+                        {showingReadBooks.map((book) => (
+                          <li key={book.id}>
+                            <div className="book">
+                              <div className="book-top">
+                                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:  `url(${book.imageLinks.thumbnail})` }}></div>
+                                <div className="book-shelf-changer" id={`${book.id}`} onClick={() => this.handleClick(book.id)}>
+                                  <ChangeShelf onChangeValue={this.setChangeValue} />
+                                </div>
+                              </div>
+                              <div className="book-title">{book.title}</div>
+                              <div className="book-authors">{book.authors}</div>
+                            </div>
+                          </li>
+                          ))}
                         </ol>
                       </div>
                     </div>
