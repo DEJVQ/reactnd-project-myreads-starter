@@ -9,78 +9,28 @@ class BooksApp extends React.Component {
   state = {
       booksCurrentlyReading: [],
       booksWantToRead: [],
-      booksRead: []
+      booksRead: [],
+      indexSelected: 1
   }
   
   componentDidMount() {
-      
       BooksAPI.getAll().then((books) => {
-          let currentlyReading = [...books].filter(book => {
-                if (book.shelf === "currentlyReading" ) {
-                    return book;
-                }
-          });
-          
-          this.setState({booksCurrentlyReading: currentlyReading});
-      });
-      
-      
-      BooksAPI.getAll().then((books) => {
-          let wantToRead = [...books].filter(book => {
-                if (book.shelf === "wantToRead" ) {
-                    return book;
-                }
-          });
-          
-          this.setState({booksWantToRead: wantToRead});
-      });
-      
-      
-      BooksAPI.getAll().then((books) => {
-          let read = [...books].filter(book => {
-                if (book.shelf === "read" ) {
-                    return book;
-                }
-          });
-          
-          this.setState({booksRead: read});
+        this.setState({
+            booksCurrentlyReading: books.filter(book => book.shelf === 'currentlyReading'),
+            booksWantToRead: books.filter(book => book.shelf === 'wantToRead'),
+            booksRead: books.filter(book => book.shelf === 'read')
+        })
       });
   }
 
     renderBooks = () => {
-        this.forceUpdate()
         BooksAPI.getAll().then((books) => {
-          let currentlyReading = [...books].filter(book => {
-                if (book.shelf === "currentlyReading" ) {
-                    return book;
-                }
-          });
-          
-          this.setState({booksCurrentlyReading: currentlyReading});
-      });
-      
-      
-      BooksAPI.getAll().then((books) => {
-          let wantToRead = [...books].filter(book => {
-                if (book.shelf === "wantToRead" ) {
-                    return book;
-                }
-          });
-          
-          this.setState({booksWantToRead: wantToRead});
-      });
-        
-        BooksAPI.getAll().then((books) => {
-          let read = [...books].filter(book => {
-                if (book.shelf === "read" ) {
-                    return book;
-                }
-          });
-          
-          this.setState({booksRead: read});
-      });
-        
-        
+        this.setState({
+            booksCurrentlyReading: books.filter(book => book.shelf === 'currentlyReading'),
+            booksWantToRead: books.filter(book => book.shelf === 'wantToRead'),
+            booksRead: books.filter(book => book.shelf === 'read')
+        })
+      });   
     }
 
   render() {

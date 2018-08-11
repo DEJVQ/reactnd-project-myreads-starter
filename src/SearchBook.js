@@ -3,15 +3,14 @@ import { Link } from "react-router-dom"
 import escapeRegExp from "escape-string-regexp"
 import * as BooksAPI from './BooksAPI'
 import ChangeShelf from "./ChangeShelf"
+import Book from "./Book"
 
 
 class SearchBook extends Component {
     
   state = {
     query: '',
-    booksSearched: [],
-    bookId: "",
-    shelfDestination: ""
+    booksSearched: []
   }
   
 
@@ -25,23 +24,7 @@ class SearchBook extends Component {
       })
     }
   }
-  
-  
-  setChangeValue = (event) => {
-      this.state.shelfDestination = event;
       
-      BooksAPI.update(this.state.bookId, this.state.shelfDestination).then((books) => {
-          this.setState({books})
-          console.log({books});
-      })
-      
-  }
-  
-  handleClick = (id) => {
-        this.state.bookId = id;
-  }
-  
-    
     render() {
         const { query, booksSearched } = this.state;
         const { onUpdateStates } = this.props;
@@ -49,8 +32,9 @@ class SearchBook extends Component {
         let showingBooks;
         
         if (query) {
-            const match = new RegExp(escapeRegExp(query), "i");
-            showingBooks = booksSearched.filter((book) => match.test(book.title));
+//            const match = new RegExp(escapeRegExp(query), "i");
+//            showingBooks = booksSearched.filter((book) => match.test(book.title));
+            showingBooks = booksSearched
         }
         else {
             showingBooks = [];
@@ -67,21 +51,10 @@ class SearchBook extends Component {
                   </div>
                 </div>
                 <div className="search-books-results" onChange={() => onUpdateStates()}>
-                  <ol className="books-grid" >
-                      {showingBooks.map((book) => (
-                          <li key={book.id}>
-                            <div className="book">
-                              <div className="book-top">
-                                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:  `url(${book.imageLinks.thumbnail})` }}></div>
-                                <div className="book-shelf-changer" id={`${book.id}`} onClick={() => this.handleClick(book.id)} >
-                                    <ChangeShelf onChangeValue={this.setChangeValue} />
-                                </div>
-                              </div>
-                              <div className="book-title">{book.title}</div>
-                              <div className="book-authors">{book.authors}</div>
-                            </div>
-                          </li>
-                          ))}
+                  <ol className="books-grid">
+                     {showingBooks.map((book) => (
+                      <Book key={book.id} book={book} />
+                    ))}
                   </ol>
                 </div>
           </div>
