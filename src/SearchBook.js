@@ -33,7 +33,7 @@ class SearchBook extends Component {
             console.log("Test123");
         }
         else {
-            showingBooks = booksSearched;
+            showingBooks = [];
         }
         
         return (

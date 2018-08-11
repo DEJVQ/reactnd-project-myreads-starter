@@ -16,9 +16,9 @@ class BooksApp extends React.Component {
       BooksAPI.getAll().then((books) => {
           this.setState({ books });
       })
-      
+
       console.log(this.state.query);
-      BooksAPI.search("art").then((booksSearched) => {
+      BooksAPI.search(emailRegex).then((booksSearched) => {
           console.log(booksSearched);
           this.setState({ booksSearched });
       })
@@ -40,7 +40,7 @@ class BooksApp extends React.Component {
         )} />
         
         <Route path="/search" render={() => (
-            <SearchBook booksSearched={ this.state.booksSearched } query={this.state.query}/>
+            <SearchBook booksSearched={ this.state.booksSearched } />
         )} />
       </div>
     )
