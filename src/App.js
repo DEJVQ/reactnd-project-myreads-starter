@@ -7,6 +7,7 @@ import './App.css'
 
 class BooksApp extends React.Component {
   state = {
+      allBooks: [],
       booksCurrentlyReading: [],
       booksWantToRead: [],
       booksRead: [],
@@ -16,9 +17,10 @@ class BooksApp extends React.Component {
   componentDidMount() {
       BooksAPI.getAll().then((books) => {
         this.setState({
+            allBooks: books,
             booksCurrentlyReading: books.filter(book => book.shelf === 'currentlyReading'),
             booksWantToRead: books.filter(book => book.shelf === 'wantToRead'),
-            booksRead: books.filter(book => book.shelf === 'read')
+            booksRead: books.filter(book => book.shelf === 'read'),
         })
       });
   }
@@ -26,6 +28,7 @@ class BooksApp extends React.Component {
     renderBooks = () => {
         BooksAPI.getAll().then((books) => {
         this.setState({
+            allBooks: books,
             booksCurrentlyReading: books.filter(book => book.shelf === 'currentlyReading'),
             booksWantToRead: books.filter(book => book.shelf === 'wantToRead'),
             booksRead: books.filter(book => book.shelf === 'read')
@@ -34,6 +37,7 @@ class BooksApp extends React.Component {
     };
 
   render() {
+      console.log(this.state.books);
     return (
       <div className="app">
         <Route exact path="/" render={() => (
@@ -47,9 +51,7 @@ class BooksApp extends React.Component {
         
         <Route path="/search" render={() => (
             <SearchBook onUpdateStates={ this.renderBooks }
-                        booksCurrentlyReading={ this.state.booksCurrentlyReading }
-                        booksWantToRead={ this.state.booksWantToRead }
-                        booksRead={ this.state.booksRead }
+                        allBooks={this.state.allBooks}
             />
         )} />
       </div>

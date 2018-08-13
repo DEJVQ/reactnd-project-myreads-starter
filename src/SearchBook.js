@@ -10,66 +10,83 @@ class SearchBook extends Component {
   state = {
       query: '',
       booksSearched: [],
-      books: ""
+      books: "",
+      booksResult: []
   };
-
 
   updateQuery = (query) => {
     this.setState({ query: query.trim() });
     if(query !== "") {
-        BooksAPI.search(query).then((booksSearched) => {
-            if (booksSearched.length > 1) {
-                this.setState({booksSearched});
-            }
-        });
-    }
+            BooksAPI.search(query).then((booksSearched) => {
+                if (booksSearched.length > 1) {
+                    this.setState({booksSearched});
+                }
+            });
+
+            //  Test
+            this.setState((state) => ({
+              bookResult: this.props.booksWantToRead
+            }))
+        }
       };
+
+    setSelect = () => {      
+//        var select = document.getElementsByTagName("select");
+//        
+//        if(select.length > 0) {
+//            var booksToRead = this.props.booksWantToRead;
+//            for(let i=0, j=0; i < select.length, j < booksToRead.length; i++, j++) {
+////                console.log(select[i].getAttribute("id"));
+//                var selectId = select[i].getAttribute("id");
+//                
+//                console.log(selectId + ":" + booksToRead[j].id);
+//                    
+//                if(selectId == booksToRead[j].id) {
+//                    console.log("Testtstt")
+//                }
+//            }
+//        }
+//        select.forEach(function(value) {
+//            console.log(value);
+//        })
+    }
       
     render() {
         const { query, booksSearched} = this.state;
-        const { onUpdateStates, booksCurrentlyReading, booksWantToRead, booksRead} = this.props;
+        const { onUpdateStates, allBooks} = this.props;
         
         let showingBooks;
-
-        // var props = ['title'];
-        //
-        // var result = booksSearched.filter(function(o1){
-        //     // filter out (!) items in result2
-        //     return booksWantToRead.some(function(o2){
-        //         return o1.id === o2.id;          // assumes unique id
-        //     });
-        // }).map(function(o){
-        //     // use reduce to make objects with only the required properties
-        //     // and map to apply this to the filtered array as a whole
-        //     return result
-        // });
-        //
-        // console.log(result);
-
-
-        // console.log(booksSearched);
-
+        let map = new Map,
+            result;
+        
         if (query) {
            // const match = new RegExp(escapeRegExp(query), "i");
            // showingBooks = booksSearched.filter((book) => match.test(book.title));
-            showingBooks = booksSearched
+//            showingBooks = booksSearched;
+
+            [booksSearched, allBooks].forEach(a =>
+                a.forEach(o => map.set(o.id, Object.assign(map.get(o.id) || {}, o)))
+            );
+            result = [...map.values()];
+
+            console.log(result);
         }
         else {
-            showingBooks = [];
+            result = [];
         }
-
+        
         return (
-            <div className="search-books">
+            <div className="search-books" onChange={() => onUpdateStates()}>
                 <div className="search-books-bar">
                   <Link className="close-search" to="/">Close</Link>
                   <div className="search-books-input-wrapper">
                     <input type="text" placeholder="Search by title or author" value={query}
-                    onChange={(event) => this.updateQuery(event.target.value)}/>
+                    onChange={(event) => {this.updateQuery(event.target.value), this.setSelect()}}/>
                   </div>
                 </div>
-                <div className="search-books-results" onChange={() => onUpdateStates()}>
+                <div className="search-books-results">
                   <ol className="books-grid">
-                     {showingBooks.map((book) => (
+                     {result.map((book) => (
                       <Book key={book.id} book={book} />
                     ))}
                   </ol>

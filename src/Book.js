@@ -25,8 +25,6 @@ class Book extends Component {
             bookId: this.props.book.id
         });
 
-        console.log(this.props.book.shelf)
-
         let selectContainer = document.getElementById(this.props.book.id);
         let select = selectContainer.firstElementChild;
 
