@@ -2,11 +2,12 @@ import React, { Component } from "react"
 
 class ChangeShelf extends Component {
 
-//    componentDidMount() {
-//        var select = document.getElementById(bookId);
-//        select.firstChild;
-//        console.log(select);
-//    }
+   // componentDidMount() {
+   //     let select = document.getElementById(`this.props.bookId`);
+   //
+   //     console.log(this);
+   //     console.log(select);
+   // }
         
     render() {
         
@@ -16,9 +17,9 @@ class ChangeShelf extends Component {
         console.log(bookId);
         
 //        var select = document.getElementById(`${bookId} select option[value={${shelf}]`);
-        var select = document.querySelectorAll(`${bookId}`);
+//         var select = document.querySelectorAll(`${bookId}`);
 //        select.firstChild;
-        console.log(select);
+//         console.log(select);
         
         
         
