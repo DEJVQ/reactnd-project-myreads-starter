@@ -10,8 +10,7 @@ class SearchBook extends Component {
   state = {
       query: '',
       booksSearched: [],
-      books: "",
-      booksResult: []
+      books: ""
   };
 
   updateQuery = (query) => {
@@ -22,34 +21,8 @@ class SearchBook extends Component {
                     this.setState({booksSearched});
                 }
             });
-
-            //  Test
-            this.setState((state) => ({
-              bookResult: this.props.booksWantToRead
-            }))
         }
       };
-
-    setSelect = () => {      
-//        var select = document.getElementsByTagName("select");
-//        
-//        if(select.length > 0) {
-//            var booksToRead = this.props.booksWantToRead;
-//            for(let i=0, j=0; i < select.length, j < booksToRead.length; i++, j++) {
-////                console.log(select[i].getAttribute("id"));
-//                var selectId = select[i].getAttribute("id");
-//                
-//                console.log(selectId + ":" + booksToRead[j].id);
-//                    
-//                if(selectId == booksToRead[j].id) {
-//                    console.log("Testtstt")
-//                }
-//            }
-//        }
-//        select.forEach(function(value) {
-//            console.log(value);
-//        })
-    }
       
     render() {
         const { query, booksSearched} = this.state;
