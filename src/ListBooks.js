@@ -1,8 +1,6 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import PropTypes from "prop-types"
-import ChangeShelf from "./ChangeShelf"
-import * as BooksAPI from './BooksAPI'
 import Book from "./Book"
 
 class ListBooks extends Component {
@@ -11,11 +9,11 @@ class ListBooks extends Component {
         booksCurrentlyReading: PropTypes.array.isRequired,
         booksWantToRead: PropTypes.array.isRequired,
         booksRead: PropTypes.array.isRequired
-    }
+    };
     
     state = {
         books: ""
-    }
+    };
     
     
     render() {

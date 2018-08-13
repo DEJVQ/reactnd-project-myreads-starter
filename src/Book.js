@@ -23,49 +23,28 @@ class Book extends Component {
         this.setState({
             bookShelf: this.props.book.shelf,
             bookId: this.props.book.id
-        })
-    }
+        });
 
-    componentDidMount() {
         let selectContainer = document.getElementById(this.props.book.id);
         let select = selectContainer.firstElementChild;
 
         for (let i = 0; i < select.length; i++){
             let option = select.options[i];
 
-            if(option.value === this.props.book.shelf) {
+            if (option.value === this.props.book.shelf) {
                 select.options[i].setAttribute("selected", "selected");
             }
         }
     }
     
-    changeSelected = (event) => {
-        
-        var elementClosest = document.querySelector(".test");
-//        console.log(this.props.book.shelf);
-//        console.log(this)
-        
-//        console.log(event)
-//        event.options[event.selectedIndex].setAttribute("selected", "selected")
-//        this.setState({
-//           bookShelf:  
-//        });
-    }
-    
-    
     handleClick = (id) => {
         this.setState({
             bookId: id
         })
-  }
-    updateQuery = (event) => {
-        console.log("dsad");
-    }
+    };
     
     render() {
-        const { book, onSetId } = this.props;
-        
-//        var select = document.getElementById(`${bookId} select option[value={${shelf}]`);
+        const { book } = this.props;
         
         return (
             <li>

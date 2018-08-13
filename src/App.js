@@ -11,7 +11,7 @@ class BooksApp extends React.Component {
       booksWantToRead: [],
       booksRead: [],
       indexSelected: 1
-  }
+  };
   
   componentDidMount() {
       BooksAPI.getAll().then((books) => {
@@ -31,7 +31,7 @@ class BooksApp extends React.Component {
             booksRead: books.filter(book => book.shelf === 'read')
         })
       });   
-    }
+    };
 
   render() {
     return (
