@@ -1,17 +1,33 @@
 import React, { Component } from "react"
 
 class ChangeShelf extends Component {
-    
-    checkText = () => {
-        console.log("dsadadsa");
-    }
-    
+
+//    componentDidMount() {
+//        var select = document.getElementById(bookId);
+//        select.firstChild;
+//        console.log(select);
+//    }
+        
     render() {
         
-        const { onChangeValue, onChangeSelected } = this.props;
+        const { onChangeValue, onInit, shelf, bookId} = this.props;
+        
+//        console.log(shelf);
+        console.log(bookId);
+        
+//        var select = document.getElementById(`${bookId} select option[value={${shelf}]`);
+        var select = document.querySelectorAll(`${bookId}`);
+//        select.firstChild;
+        console.log(select);
+        
+        
+        
+        
+//        select.options[event.selectedIndex].setAttribute("selected", "selected")
+        
         
         return (
-            <select onChange={(e) => {onChangeValue(e.target), onChangeSelected(e.target)}} >
+            <select onChange={(e) => {onChangeValue(e.target)}} id={bookId}>
                 <option value="move" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
