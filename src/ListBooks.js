@@ -18,8 +18,7 @@ class ListBooks extends Component {
     
     render() {
         const { booksCurrentlyReading, booksWantToRead, booksRead, onUpdateStates} = this.props;
-        const { books } = this.state;
-        
+
         let showingCurrentyReadingBooks, showingWantToReadBooks, showingReadBooks;
         
         showingCurrentyReadingBooks = booksCurrentlyReading;

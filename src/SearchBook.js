@@ -9,9 +9,14 @@ class SearchBook extends Component {
     
   state = {
       query: '',
-      booksSearched: []
+      booksSearched: [],
+      books: ""
   };
-  
+
+
+    componentDidMount() {
+        console.log(this.props.data)
+    }
 
   updateQuery = (query) => {
     this.setState({ query: query.trim() });
@@ -20,13 +25,13 @@ class SearchBook extends Component {
             if (booksSearched.length > 1) {
                 this.setState({booksSearched});
             }
-        })
+        });
     }
       };
       
     render() {
-        const { query, booksSearched, bookShelf} = this.state;
-        const { onUpdateStates } = this.props;
+        const { query, booksSearched} = this.state;
+        const { onUpdateStates, data} = this.props;
         
         let showingBooks;
         
