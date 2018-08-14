@@ -10,7 +10,8 @@ class SearchBook extends Component {
   state = {
       query: '',
       booksSearched: [],
-      books: ""
+      books: "",
+      booksResult: []
   };
 
   updateQuery = (query) => {
@@ -21,6 +22,11 @@ class SearchBook extends Component {
                     this.setState({booksSearched});
                 }
             });
+
+            //  Test
+            this.setState((state) => ({
+              bookResult: this.props.booksWantToRead
+            }))
         }
       };
       
@@ -42,7 +48,6 @@ class SearchBook extends Component {
             );
             result = [...map.values()];
 
-            console.log(result);
         }
         else {
             result = [];
@@ -54,7 +59,7 @@ class SearchBook extends Component {
                   <Link className="close-search" to="/">Close</Link>
                   <div className="search-books-input-wrapper">
                     <input type="text" placeholder="Search by title or author" value={query}
-                    onChange={(event) => {this.updateQuery(event.target.value), this.setSelect()}}/>
+                    onChange={(event) => {this.updateQuery(event.target.value)}}/>
                   </div>
                 </div>
                 <div className="search-books-results">

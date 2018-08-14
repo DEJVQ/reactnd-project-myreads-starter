@@ -18,14 +18,6 @@ class ListBooks extends Component {
     
     render() {
         const { booksCurrentlyReading, booksWantToRead, booksRead, onUpdateStates} = this.props;
-
-        let showingCurrentyReadingBooks, showingWantToReadBooks, showingReadBooks;
-        
-        showingCurrentyReadingBooks = booksCurrentlyReading;
-        showingWantToReadBooks = booksWantToRead;            
-        showingReadBooks = booksRead;
-        
-        
         
         return (
             <div className="list-books" onChange={() => onUpdateStates()}>
@@ -38,7 +30,7 @@ class ListBooks extends Component {
                       <h2 className="bookshelf-title">Currently Reading</h2>
                       <div className="bookshelf-books">
                         <ol className="books-grid">
-                         {showingCurrentyReadingBooks.map((book) => (
+                         {booksCurrentlyReading.map((book) => (
                           <Book key={book.id} book={book} />
                           ))}
                         </ol>
@@ -48,7 +40,7 @@ class ListBooks extends Component {
                       <h2 className="bookshelf-title">Want to Read</h2>
                       <div className="bookshelf-books">
                         <ol className="books-grid">
-                        {showingWantToReadBooks.map((book) => (
+                        {booksWantToRead.map((book) => (
                           <Book key={book.id} book={book} />
                           ))}
                         </ol>
@@ -58,7 +50,7 @@ class ListBooks extends Component {
                       <h2 className="bookshelf-title">Read</h2>
                       <div className="bookshelf-books">
                         <ol className="books-grid">
-                        {showingReadBooks.map((book) => (
+                        {booksRead.map((book) => (
                             <Book key={book.id} book={book} />
                           ))}
                         </ol>

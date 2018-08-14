@@ -14,17 +14,17 @@ class BooksApp extends React.Component {
       indexSelected: 1
   };
   
-  componentDidMount() {
-      BooksAPI.getAll().then((books) => {
+  async componentDidMount() {
+      const books = await BooksAPI.getAll();
         this.setState({
             allBooks: books,
             booksCurrentlyReading: books.filter(book => book.shelf === 'currentlyReading'),
             booksWantToRead: books.filter(book => book.shelf === 'wantToRead'),
             booksRead: books.filter(book => book.shelf === 'read'),
         })
-      });
   }
 
+    // Async tested here and Cannot Read Property SetState of undefined
     renderBooks = () => {
         BooksAPI.getAll().then((books) => {
         this.setState({
@@ -37,7 +37,7 @@ class BooksApp extends React.Component {
     };
 
   render() {
-      console.log(this.state.books);
+      
     return (
       <div className="app">
         <Route exact path="/" render={() => (

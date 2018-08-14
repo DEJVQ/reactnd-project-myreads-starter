@@ -1,15 +1,18 @@
-import React, { Component } from "react"
+import React, { PureComponent } from "react"
 import ChangeShelf from "./ChangeShelf"
 import * as BooksAPI from './BooksAPI'
 
 
-class Book extends Component {
+class Book extends PureComponent {
     
     state = {
         shelfDestination: "",
         bookId: "",
-        bookShelf: ""
+        bookShelf: "",
+        value: ""
       };
+
+    handleChange = this.handleChange.bind(this);
     
     setChangeValue = (event) => {
       this.state.shelfDestination = event.value;
@@ -18,24 +21,17 @@ class Book extends Component {
           this.setState({books})
       })
     };
+        
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    }
     
     componentDidMount() {
         this.setState({
             bookShelf: this.props.book.shelf,
-            bookId: this.props.book.id
+            bookId: this.props.book.id,
+            value: this.props.book.shelf,
         });
-
-        let selectContainer = document.getElementById(this.props.book.id);
-        let select = selectContainer.firstElementChild;
-
-        for (let i = 0; i < select.length; i++){
-            let option = select.options[i];
-
-            if (option.value === this.props.book.shelf) {
-                select.options[i].setAttribute("selected", "selected");
-                select.options[i].setAttribute("disabled", "disabled");
-            }
-        }
     }
     
     handleClick = (id) => {
@@ -54,7 +50,7 @@ class Book extends Component {
                         <div className="book-top">
                             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage:  `url(${book.imageLinks.thumbnail})` }}></div>
                             <div className={`book-shelf-changer ${book.shelf}`} id={`${book.id}`} onClick={() => this.handleClick(book.id)}>
-                                <ChangeShelf onChangeValue={this.setChangeValue} shelf={this.state.bookShelf} bookId={this.state.bookId} />
+                                <ChangeShelf onChangeValue={this.setChangeValue} shelf={this.state.bookShelf} bookId={this.state.bookId} onHandleChange={this.handleChange} selectValue={this.state.value}/>
                             </div>
                         </div>
                         <div className="book-title">{book.title}</div>
@@ -70,7 +66,7 @@ class Book extends Component {
                         <div className="book-top">
                             <div className="book-cover" style={{ width: 128, height: 193 }}></div>
                             <div className={`book-shelf-changer ${book.shelf}`} id={`${book.id}`} onClick={() => this.handleClick(book.id)}>
-                                <ChangeShelf onChangeValue={this.setChangeValue} shelf={this.state.bookShelf} bookId={this.state.bookId} />
+                                <ChangeShelf onChangeValue={this.setChangeValue} shelf={this.state.bookShelf} bookId={this.state.bookId} onHandleChange={this.handleChange} selectValue={this.state.value}/>
                             </div>
                         </div>
                         <div className="book-title">{book.title}</div>
