@@ -6,7 +6,6 @@ import * as BooksAPI from './BooksAPI'
 class Book extends PureComponent {
     
     state = {
-        shelfDestination: "",
         bookId: "",
         bookShelf: "",
         value: ""
@@ -14,10 +13,8 @@ class Book extends PureComponent {
 
     handleChange = this.handleChange.bind(this);
     
-    setChangeValue = (event) => {
-      this.state.shelfDestination = event.value;
-      
-      BooksAPI.update(this.state.bookId, this.state.shelfDestination).then((books) => {
+    setChangeValue = (event) => {      
+      BooksAPI.update(this.state.bookId, event.value).then((books) => {
           this.setState({books})
       })
     };

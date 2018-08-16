@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
-import escapeRegExp from "escape-string-regexp"
 import * as BooksAPI from './BooksAPI'
 import Book from "./Book"
 
@@ -34,8 +33,7 @@ class SearchBook extends Component {
         const { query, booksSearched} = this.state;
         const { onUpdateStates, allBooks} = this.props;
         
-        let showingBooks;
-        let map = new Map,
+        let map = new Map(),
             result;
         
         if (query) {

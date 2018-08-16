@@ -4,7 +4,7 @@ class ChangeShelf extends Component {
     
     render() {
         
-        const { onChangeValue, bookId, selectValue, onHandleChange, defaultDisabled} = this.props;
+        const { onChangeValue, bookId, selectValue, onHandleChange } = this.props;
 
         return (
             <select onChange={(e) => {onChangeValue(e.target), onHandleChange(e)}} id={bookId} value={selectValue}>
